@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { WasteProduct } from '../../models/waste-product.model';
+
 import { SearchServiceProvider } from '../search-service/search-service';
+import { WasteProduct } from '../../models/waste-product.model';
 
 @Injectable()
 /**

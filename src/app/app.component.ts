@@ -61,10 +61,11 @@ export class AppComponent {
           title: wasteProducts[i].title,
         });
       }
-    }).catch(err => console.log(err)).finally(() => {
-      this.searchResults = domResults;
-      this.loading = false;
-    });
+    }).catch(err => console.log(err)) // show errors, if any
+      .finally(() => {
+        this.searchResults = domResults;
+        this.loading = false;
+      });
   }
   /**
    * Resets the search results when the input query is cleared

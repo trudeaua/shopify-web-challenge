@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/Shopify-App",
     "ignore": [
       "firebase.json",
       "**/.*",
