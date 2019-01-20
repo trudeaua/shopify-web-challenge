@@ -1,20 +1,45 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div id="header">
+  <div>Toronto Waste Lookup</div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<!-- searchbar section -->
+<div id="search">
+  <form #searchForm (ngSubmit)="process(searchForm)" class="form">
+    <input id="searchbar" type="text" placeholder="Search for Waste Products..." name="query" [(ngModel)]="query"
+      (input)="checkInput($event.target.value)">
+    <button id="searchbtn" type="submit" primary>
+      <mat-icon class="icon-flipped">search</mat-icon>
+    </button>
+  </form>
+</div>
+<br>
+<!-- search results section -->
+<div id="searchResults">
+  <table class="resultsTable" *ngIf="searchResults.length > 0 && !loading">
+    <tr *ngFor="let wasteprdt of searchResults">
+      <td width="5%">
+          <mat-icon [style.color]="wasteprdt.color" class="star-btn" id="{{wasteprdt.id ? wasteprdt.id : wasteprdt.title}}" (click)="toggleFavourite(wasteprdt.id ? wasteprdt.id : wasteprdt.title, $event)">star</mat-icon>
+      </td>
+      <td width="35%">{{wasteprdt.title}}</td>
+      <td width="60%" [innerHTML]="decodeHtml(wasteprdt.body)">
+      </td>
+    </tr>
+  </table>
+  <mat-progress-spinner *ngIf="searchResults.length == 0 && loading" class="loading" mode="indeterminate" diameter="50" color="#22955E"></mat-progress-spinner>
+</div>
+<!-- favourites section -->
+<div id="favourites">
+  <h1>Favourites</h1>
+  <table class="resultsTable" *ngIf="favourites.length > 0">
+    <tr *ngFor="let wasteprdt of favourites">
+      <td width="5%">
+        <button mat-icon-button class="star-btn" style="color: rgb(34, 149, 94) !important;" (click)="removeFavourite(wasteprdt.id ? wasteprdt.id : wasteprdt.title)">
+          <mat-icon>star</mat-icon>
+        </button>
+      </td>
+      <td width="35%">{{wasteprdt.title}}</td>
+      <td width="60%" [innerHTML]="decodeHtml(wasteprdt.body)">
+      </td>
+    </tr>
+  </table>
+  <p *ngIf="favourites.length == 0">You have no favourites! Click the <mat-icon style="vertical-align: middle">star</mat-icon> icon next to a waste product in the search results to add it to your favourites. </p>
+</div>
