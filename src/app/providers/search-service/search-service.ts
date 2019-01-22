@@ -36,8 +36,31 @@ export class SearchServiceProvider {
     public fetchWasteProducts(): Promise<void> {
         return new Promise(resolve => {
             this.http.get(this.apiUrl).subscribe((res: WasteProduct[]) => {
+                let ids: string[] = [];
+                // not all waste products have unique identifiers
+                // so we maintain an array of all unqiue ids
+                for (let i = 0; i < res.length; i++) {
+                    if ("id" in res[i]) {
+                        ids.push(res[i].id);
+                    }
+                }
+                // then create ids for the waste products that don't have one
+                let num_id = 0;
+                for (let i = 0; i < res.length; i++) {
+                    let newId = "" + num_id;
+                    if (!("id" in res[i])) {
+                        // increment num_id until its string conversion isn't in the ids array
+                        while (newId in ids) {
+                            num_id += 1;
+                            newId = "" + num_id;
+                        }
+                        ids.push(newId);
+                        // then assign it to the waste product
+                        res[i].id = newId;
+                    }
+                }
                 this.wpData = res;
-                resolve(); // promise resolves when 
+                resolve(); // promise resolves after data is assigned a value
             });
         });
     }
@@ -47,7 +70,7 @@ export class SearchServiceProvider {
      */
     public getWasteProductById(wpid: string): WasteProduct {
         for (let i = 0; i < this.wpData.length; i++) {
-            if (this.wpData[i].title == wpid || this.wpData[i].id == wpid) {
+            if (this.wpData[i].id == wpid) {
                 return this.wpData[i];
             }
         }

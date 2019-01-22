@@ -3,7 +3,7 @@ export class WasteProduct {
     category: string;
     title: string;
     keywords: string;
-    id?: string;
+    id: string;
     constructor(body: string, category: string, title: string, keywords: string, id: string) {
         this.body = body;
         this.category = category;

@@ -32,7 +32,7 @@ export class FavouriteServiceProvider {
    */
   removeFromFavourites(wpid: string): void {
     for (let i = 0; i < this.favourites.length; i++) {
-      if (this.favourites[i].title == wpid || this.favourites[i].id == wpid) {
+      if (this.favourites[i].id == wpid) {
         // remove the waste product from favourited
         this.favourites = this.favourites.slice(0, i).concat(this.favourites.slice(i + 1, this.favourites.length));
       }

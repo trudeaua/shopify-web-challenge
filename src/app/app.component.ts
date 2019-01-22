@@ -46,9 +46,7 @@ export class AppComponent {
       for (let i = 0; i < wasteProducts.length; i++) {
         let color = "rgb(209, 209, 209)";
         this.favourites.forEach((fav) => {
-          let fav_id = fav.id ? fav.id : fav.title;
-          let searchRes_id = wasteProducts[i].id ? wasteProducts[i].id : wasteProducts[i].title;
-          if (fav_id == searchRes_id) {
+          if (fav.id == wasteProducts[i].id) {
             color = "rgb(34, 149, 94)";
           }
         });
@@ -126,7 +124,7 @@ export class AppComponent {
    */
   public isSearchResult(wpid: string): boolean {
     for (let i = 0; i < this.searchResults.length; i++) {
-      let id = this.searchResults[i].id ? this.searchResults[i].id : this.searchResults[i].title;
+      let id = this.searchResults[i].id;
       if (id == wpid) {
         return true;
       }
